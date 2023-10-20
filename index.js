@@ -84,6 +84,22 @@ async function run() {
       res.send(result);
     });
 
+    // user cart collection
+    const cartCollection = client.db("productsDB").collection("carts");
+
+    app.get("/carts", async (req, res) => {
+      const cursor = cartCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    app.post("/carts", async (req, res) => {
+      const newCart = req.body;
+      console.log(newCart);
+      const result = await cartCollection.insertOne(newCart);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
