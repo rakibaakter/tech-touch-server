@@ -60,6 +60,30 @@ async function run() {
       res.send(result);
     });
 
+    app.put("/product/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedProduct = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          name: updatedProduct.name,
+          brand: updatedProduct.brand,
+          type: updatedProduct.type,
+          price: updatedProduct.price,
+          rating: updatedProduct.rating,
+          image: updatedProduct.image,
+          description: updatedProduct.description,
+        },
+      };
+      const result = await productsCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
