@@ -96,7 +96,6 @@ async function run() {
       const id = req.params.id;
       const query = { _id: id };
       const result = await cartCollection.findOne(query);
-      console.log(result);
       res.send(result);
     });
 
